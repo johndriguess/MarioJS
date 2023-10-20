@@ -1,28 +1,61 @@
 const mario = document.querySelector('.mario');
 const pipe = document.querySelector('.pipe');
+const clouds = document.querySelector('.clouds');
+const restart = document.querySelector('.restart');
+
+let gameOver = false;
 
 const jump = () => {
-    mario.classList.add('jump');
-    setTimeout(() => {
-        mario.classList.remove('jump');
-    }, 500);
+    if(!gameOver){
+        mario.classList.add('jump');
+        setTimeout(() => {
+            mario.classList.remove('jump');
+        }, 500);
+    }
+}
+
+const restartGame = () => {
+    location.reload()
+}
+
+const endGame = () => {
+    gameOver = true; 
+    restart.style.display = 'block'; 
 }
 
 const loop = setInterval(() => {
     const pipePosition = pipe.offsetLeft;
-    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px','');
+    const marioPosition = +window.getComputedStyle(mario).
+    bottom.replace('px','');
+    const cloudsPosition = clouds.offsetLeft;
+    
 
     if(pipePosition <= 120 && marioPosition < 80 && pipePosition > 0){
-        pipe.style.animation = 'none';
-        pipe.style.left = pipePosition+'px';
+        pipe.style.animationPlayState = 'paused';
+        pipe.style.left = `${pipePosition}px`
 
-        mario.style.animation = 'none';
-        mario.style.bottom = marioPosition+'px';
-        mario.src = "./images/game-over.png"
-        mario.style.width = '75px';
-        mario.style.marginLeft = '50px';
-        clearIntercal(loop);
+        mario.classList.remove('.jump')
+        mario.style.bottom = `${marioPosition}px`
+        mario.src = './images/game-over.png'
+        mario.style.width = '80px'
+        mario.style.marginLeft = '50px'
+
+        clouds.style.animationPlayState = 'paused';
+        clouds.style.left = cloudsPosition+'px';
+        clearInterval(loop);
+        endGame();
+        
     }
 },10)
 
-document.addEventListener('keydown', jump);
+
+
+document.addEventListener('keydown', (event) => {
+    if ((event.key === 'R' || event.key === 'r') && gameOver) {
+        restartGame();
+    } else {
+        jump();
+    }
+});
+
+document.addEventListener('touchstart', jump);

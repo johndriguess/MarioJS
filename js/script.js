@@ -40,7 +40,10 @@ const restartGame = () => {
 }
 
 const endGame = () => {
-    gameOver = true; 
+    gameOver = true;
+    if (window.innerWidth <= 768) { 
+        restart.innerHTML = 'Clique para Continuar'
+    }
     restart.style.display = 'block'; 
     blink(restart)
     clouds.style.animationPlayState = 'paused';
@@ -87,7 +90,7 @@ function startGameLoop() {
 startGameLoop();
 
 document.addEventListener('keydown', (event) => {
-    if ((event.key === 'R' || event.key === 'r') && gameOver) {
+    if ((event.key === 'R' || event.key === 'r' || event.key == 'touchstart') && gameOver) {
         console.log("Tecla 'R' pressionada para reiniciar o jogo");
         restartGame();
     } else {
@@ -100,4 +103,3 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-document.addEventListener('touchstart', jump);

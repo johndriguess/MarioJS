@@ -1,3 +1,5 @@
+@import url(https://db.onlinewebfonts.com/c/545a1e2bdf8e1613f10f34eb87c9983f?family=Super+Mario+286%28RUS+BY+LYAJKA%29);
+
 *{
     margin: 0;
     padding: 0;
@@ -6,7 +8,7 @@
 
 .game-board{
     width: 100%;
-    height: 500px;
+    height: 692px;
     border-bottom: 15px solid rgb(35, 160, 35);
     margin: 0 auto;
     position: relative;
@@ -58,6 +60,7 @@
     position: absolute;
     width: 550px;
     animation: clouds-animation 20s infinite linear;
+    z-index: 1;
 }
 
 @keyframes clouds-animation {
@@ -69,5 +72,80 @@
 }
 
 .restart{
+    font-family: "Super Mario 286(RUS BY LYAJKA)", sans-serif;
+    font-size: 16px;
+    color: #ff0000;
+    background-color: #ffcc00;
+    border: 2px solid #ff0000;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
     display: none;
+    text-shadow: 2px 2px 2px #7a0404;
+}
+
+.score{
+    font-family: "Super Mario 286(RUS BY LYAJKA)", sans-serif;;
+    position: absolute;
+    font-size: 24px;
+    color: #ffcc00;
+    text-shadow: 2px 2px 4px #ff0000;
+    letter-spacing: 2px;
+    z-index: 10;
+    top: 10px;
+    right: 10px;
+}
+
+.score-number {
+    color: #ffcc00;
+    display: inline-block;
+    background-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    transition: background-position 0.5s linear;
+}
+
+.blink-restart{
+    animation: blink-restart 2s infinite alternate;
+}
+
+.blink-score{
+    animation: blink-score 1s infinite alternate;
+}
+
+@keyframes blink-restart {
+    0%{
+        opacity: 1;
+        top: 250px;
+    }40%{
+        opacity: 1px;
+        top: 240px;
+    }50%{
+        opacity: 0.8px;
+        top: 240px;
+    }60%{
+        opacity: 0.7px;
+        top: 240px;
+    }80%{
+        opacity: 0.6px;
+        top: 240px;
+    }95%{
+        opacity: 0.5px;
+        top: 240px;
+    }100%{
+        opacity: 0;
+        top: 230px;
+    } 
+}
+
+@keyframes blink-score {
+    from{
+        opacity: 1;
+    }to{
+        opacity: 0.5;
+    }
 }

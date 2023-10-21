@@ -2,7 +2,11 @@ const mario = document.querySelector('.mario');
 const pipe = document.querySelector('.pipe');
 const clouds = document.querySelector('.clouds');
 const restart = document.querySelector('.restart');
+const pontuacao = document.querySelector('.score');
+const numPontuacao = document.querySelector('.score-number');
 
+let pipePassed = false;
+let score = 0;
 let gameOver = false;
 let loop;
 let lastJumpTime = 0;
@@ -17,6 +21,20 @@ const jump = () => {
     }
 }
 
+const blink = (classe) => {
+    if(classe === restart){
+        classe.classList.add('blink-restart');
+        setTimeout(() => {
+            classe.classList.remove('blink-restart');
+        }, 1000000);
+    }else{
+        classe.classList.add('blink-score');
+        setTimeout(() => {
+            classe.classList.remove('blink-score');
+        }, 501);
+    }
+}
+
 const restartGame = () => {
     location.reload();
 }
@@ -24,6 +42,7 @@ const restartGame = () => {
 const endGame = () => {
     gameOver = true; 
     restart.style.display = 'block'; 
+    blink(restart)
     clouds.style.animationPlayState = 'paused';
     pipe.style.animationPlayState = 'paused';
     clearInterval(loop);
@@ -50,6 +69,13 @@ function startGameLoop() {
                 clouds.style.left = cloudsPosition+'px';
                 clearInterval(loop);
                 endGame();
+            }else if (pipePosition <= -10 && !pipePassed) {
+                score++; 
+                blink(numPontuacao)
+                pipePassed = true; 
+                numPontuacao.innerHTML = score;
+            } else if (pipePosition > 0) {
+                pipePassed = false;
             }
         }, 10);
     }
@@ -65,6 +91,7 @@ document.addEventListener('keydown', (event) => {
         console.log("Tecla 'R' pressionada para reiniciar o jogo");
         restartGame();
     } else {
+        console.log(numPontuacao)
         const currentTime = new Date().getTime();
         if (currentTime - lastJumpTime >= jumpCooldown) {
             jump();

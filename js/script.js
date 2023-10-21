@@ -42,7 +42,7 @@ const restartGame = () => {
 const endGame = () => {
     gameOver = true;
     if (window.innerWidth <= 768) { 
-        restart.innerHTML = 'Clique para Continuar'
+        restart.innerHTML = 'Clique para reiniciar'
     }
     restart.style.display = 'block'; 
     blink(restart)
@@ -90,11 +90,21 @@ function startGameLoop() {
 startGameLoop();
 
 document.addEventListener('keydown', (event) => {
-    if ((event.key === 'R' || event.key === 'r' || event.key == 'touchstart') && gameOver) {
-        console.log("Tecla 'R' pressionada para reiniciar o jogo");
+    if ((event.key === 'R' || event.key === 'r') && gameOver) {
         restartGame();
     } else {
-        console.log(numPontuacao)
+        const currentTime = new Date().getTime();
+        if (currentTime - lastJumpTime >= jumpCooldown) {
+            jump();
+            lastJumpTime = currentTime;
+        }
+    }
+});
+
+document.addEventListener('touchstart', (event) => {
+    if ((event) && gameOver) {
+        restartGame();
+    } else {
         const currentTime = new Date().getTime();
         if (currentTime - lastJumpTime >= jumpCooldown) {
             jump();

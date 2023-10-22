@@ -84,9 +84,6 @@ function startGameLoop() {
     }
 }
 
-
-
-
 startGameLoop();
 
 document.addEventListener('keydown', (event) => {

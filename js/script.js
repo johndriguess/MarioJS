@@ -12,14 +12,6 @@ let loop;
 let lastJumpTime = 0;
 const jumpCooldown = 500;
 
-const adjustPipeSpeed = () => {
-    if (score % 1 === 1) {
-      const currentDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pipe-animation-duration'));
-      document.documentElement.style.setProperty('--pipe-animation-duration', (currentDuration * 0.9) + 's');
-    }
-  };
-
-
 const jump = () => {
     if(!gameOver){
         mario.classList.add('jump');
@@ -90,12 +82,13 @@ function startGameLoop() {
                 clouds.style.left = cloudsPosition+'px';
                 clearInterval(loop);
                 endGame();
+
             }else if (pipePosition <= -10 && !pipePassed) {
                 score++; 
                 blink(numPontuacao)
                 pipePassed = true; 
                 numPontuacao.innerHTML = score;
-                adjustPipeSpeed();
+
             } else if (pipePosition > 0) {
                 pipePassed = false;
             }

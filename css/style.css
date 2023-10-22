@@ -20,7 +20,7 @@
     position: absolute;
     bottom: 0;
     width: 80px;
-    animation: pipe-animation 1.4s infinite linear;
+    animation: pipe-animation var(--pipe-duration) infinite linear;
 }
 
 @keyframes pipe-animation{
@@ -151,3 +151,8 @@
         opacity: 0.5;
     }
 }
+
+:root {
+    --pipe-min-duration: 1s; /* Duração mínima da animação */
+    --pipe-max-duration: 2s; /* Duração máxima da animação */
+  }

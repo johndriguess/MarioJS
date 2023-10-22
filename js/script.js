@@ -12,6 +12,14 @@ let loop;
 let lastJumpTime = 0;
 const jumpCooldown = 500;
 
+const adjustPipeSpeed = () => {
+    if (score % 1 === 1) {
+      const currentDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pipe-animation-duration'));
+      document.documentElement.style.setProperty('--pipe-animation-duration', (currentDuration * 0.9) + 's');
+    }
+  };
+
+
 const jump = () => {
     if(!gameOver){
         mario.classList.add('jump');
@@ -52,7 +60,17 @@ const endGame = () => {
 }
 
 function startGameLoop() {
+    
     if (!loop && !gameOver) {
+        const windowWidth = window.innerWidth;
+    
+        // Calcule a duração com base na largura da janela (quanto menor, mais rápido)
+        const minDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pipe-min-duration'));
+        const maxDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pipe-max-duration'));
+        const normalizedDuration = (windowWidth / 768) * (maxDuration - minDuration) + minDuration;
+        
+        // Defina a duração da animação do cano com base no cálculo
+        document.documentElement.style.setProperty('--pipe-duration', normalizedDuration + 's');
         loop = setInterval(() => {
             const pipePosition = pipe.offsetLeft;
             const marioPosition = +window.getComputedStyle(mario).bottom.replace('px','');
@@ -67,7 +85,7 @@ function startGameLoop() {
                 mario.src = './images/game-over.png'
                 mario.style.width = '80px'
                 mario.style.marginLeft = '50px'
-
+                
                 clouds.style.animationPlayState = 'paused';
                 clouds.style.left = cloudsPosition+'px';
                 clearInterval(loop);
@@ -77,6 +95,7 @@ function startGameLoop() {
                 blink(numPontuacao)
                 pipePassed = true; 
                 numPontuacao.innerHTML = score;
+                adjustPipeSpeed();
             } else if (pipePosition > 0) {
                 pipePassed = false;
             }
